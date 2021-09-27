@@ -4,15 +4,15 @@ import os
 #
 # Example script to submit TnPTreeProducer to crab
 #
-submitVersion = "2020-06-09" # add some date here
+submitVersion = "2021-09-24-20UL_1718FINAL" # add some date here
 doL1matching  = False
 
-defaultArgs   = ['doEleID=True','doPhoID=True','doTrigger=True']
-mainOutputDir = '/store/group/phys_egamma/tnpTuples/%s/%s' % (os.environ['USER'], submitVersion)
+defaultArgs   = ['doEleID=True','doPhoID=False','doTrigger=False']
+mainOutputDir = '/store/user/asculac/TnPtuples/%s' % submitVersion
 
 # Logging the current version of TnpTreeProducer here, such that you can find back what the actual code looked like when you were submitting
-os.system('mkdir -p /eos/cms/%s' % mainOutputDir)
-os.system('(git log -n 1;git diff) &> /eos/cms/%s/git.log' % mainOutputDir)
+#os.system('mkdir -p %s' % mainOutputDir)
+os.system('(git log -n 1;git diff) &> %s/git.log' % mainOutputDir)
 
 
 #
@@ -34,7 +34,7 @@ config.Data.inputDataset               = ''
 config.Data.inputDBS                   = 'global'
 config.Data.publication                = False
 config.Data.allowNonValidInputDataset  = True
-config.Site.storageSite                = 'T2_CH_CERN'
+config.Site.storageSite                = 'T3_CH_CERNBOX'  #T2_CH_CERN  # ?
 
 
 #
@@ -45,9 +45,10 @@ def getLumiMask(era):
   if   era=='2016':   return 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'
   elif era=='2017':   return 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1.txt'
   elif era=='2018':   return 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/PromptReco/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt'
-  elif era=='UL2017': return 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/Legacy_2017/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON.txt'
-  elif era=='UL2018': return 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/PromptReco/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt'
-
+  elif era=='UL2017': return '/home/llr/cms/skulac/TnP_test/CMSSW_10_6_20/src/EgammaAnalysis/TnPTreeProducer/crab/LumiMask/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON.txt'
+  elif era=='UL2016preVFP': return '/home/llr/cms/skulac/TnP_test/CMSSW_10_6_20/src/EgammaAnalysis/TnPTreeProducer/crab/LumiMask/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt' #Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON.txt'
+  elif era=='UL2016postVFP': return '/home/llr/cms/skulac/TnP_test/CMSSW_10_6_20/src/EgammaAnalysis/TnPTreeProducer/crab/LumiMask/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON.txt'
+  elif era=='UL2018': return '/home/llr/cms/skulac/TnP_test/CMSSW_10_6_20/src/EgammaAnalysis/TnPTreeProducer/crab/LumiMask/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON.txt'
 
 #
 # Submit command
@@ -100,25 +101,45 @@ def submitWrapper(requestName, sample, era, extraParam=[]):
 from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
 if isReleaseAbove(10,6):
   era       = 'UL2017'
-  submitWrapper('Run2017B', '/SingleElectron/Run2017B-09Aug2019_UL2017-v1/MINIAOD', era)
-  submitWrapper('Run2017C', '/SingleElectron/Run2017C-09Aug2019_UL2017-v1/MINIAOD', era)
-  submitWrapper('Run2017D', '/SingleElectron/Run2017D-09Aug2019_UL2017-v1/MINIAOD', era)
-  submitWrapper('Run2017E', '/SingleElectron/Run2017E-09Aug2019_UL2017-v1/MINIAOD', era)
-  submitWrapper('Run2017F', '/SingleElectron/Run2017F-09Aug2019_UL2017_EcalRecovery-v1/MINIAOD', era)
+  submitWrapper('Run2017B', '/SingleElectron/Run2017B-UL2017_MiniAODv2-v1/MINIAOD', era) # /SingleElectron/Run2017B-09Aug2019_UL2017-v1/MINIAOD
+  submitWrapper('Run2017C', '/SingleElectron/Run2017C-UL2017_MiniAODv2-v1/MINIAOD', era) # /SingleElectron/Run2017C-09Aug2019_UL2017-v1/MINIAOD
+  submitWrapper('Run2017D', '/SingleElectron/Run2017D-UL2017_MiniAODv2-v1/MINIAOD', era) #/SingleElectron/Run2017D-09Aug2019_UL2017-v1/MINIAOD
+  submitWrapper('Run2017E', '/SingleElectron/Run2017E-UL2017_MiniAODv2-v1/MINIAOD', era) #/SingleElectron/Run2017E-09Aug2019_UL2017-v1/MINIAOD
+  submitWrapper('Run2017F', '/SingleElectron/Run2017F-UL2017_MiniAODv2-v1/MINIAOD', era) #/SingleElectron/Run2017F-09Aug2019_UL2017_EcalRecovery-v1/MINIAOD
 
-  submitWrapper('DY_NLO',  '/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer19UL17MiniAOD-106X_mc2017_realistic_v6-v2/MINIAODSIM', era)
-  submitWrapper('DY_LO',   '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer19UL17MiniAOD-106X_mc2017_realistic_v6-v2/MINIAODSIM', era)
-
+  submitWrapper('DY_NLO',  '/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer20UL17MiniAOD-106X_mc2017_realistic_v6-v1/MINIAODSIM', era)
+  submitWrapper('DY_LO',   '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v1/MINIAODSIM', era)
 
 
   era       = 'UL2018'
   submitWrapper('Run2018A', '/EGamma/Run2018A-12Nov2019_UL2018-v2/MINIAOD', era)
   submitWrapper('Run2018B', '/EGamma/Run2018B-12Nov2019_UL2018-v2/MINIAOD', era)
   submitWrapper('Run2018C', '/EGamma/Run2018C-12Nov2019_UL2018-v2/MINIAOD', era)
-  submitWrapper('Run2018D', '/EGamma/Run2018D-12Nov2019_UL2018-v4/MINIAOD', era)
+  submitWrapper('Run2018D', '/EGamma/Run2018D-12Nov2019_UL2018-v8/MINIAOD', era)
 
-  submitWrapper('DY_NLO',   '/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer19UL18MiniAOD-106X_upgrade2018_realistic_v11_L1v1-v2/MINIAODSIM', era)
-  submitWrapper('DY_LO',    '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer19UL18MiniAOD-106X_upgrade2018_realistic_v11_L1v1-v1/MINIAODSIM', era)
+  submitWrapper('DY_NLO',   '/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer20UL18MiniAOD-106X_upgrade2018_realistic_v11_L1v1-v1/MINIAODSIM', era)
+  #submitWrapper('DY_LO',    '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer19UL18MiniAOD-106X_upgrade2018_realistic_v11_L1v1-v1/MINIAODSIM', era)  #19UL
+  submitWrapper('DY_LO',    '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v2/MINIAODSIM', era) #20UL
+
+  era       ='UL2016preVFP'
+  submitWrapper('Run2016Bv1', '/SingleElectron/Run2016B-21Feb2020_ver1_UL2016_HIPM-v1/MINIAOD', era) #
+  submitWrapper('Run2016Bv2', '/SingleElectron/Run2016B-21Feb2020_ver2_UL2016_HIPM-v1/MINIAOD', era) #
+  submitWrapper('Run2016C', '/SingleElectron/Run2016C-21Feb2020_UL2016_HIPM-v1/MINIAOD', era) #
+  submitWrapper('Run2016D', '/SingleElectron/Run2016D-21Feb2020_UL2016_HIPM-v1/MINIAOD', era) #
+  submitWrapper('Run2016E', '/SingleElectron/Run2016E-21Feb2020_UL2016_HIPM-v1/MINIAOD', era) #
+  submitWrapper('Run2016F', '/SingleElectron/Run2016F-21Feb2020_UL2016_HIPM-v1/MINIAOD', era) #
+
+
+  submitWrapper('DY_NLO',   '/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer20UL16MiniAODAPV-106X_mcRun2_asymptotic_preVFP_v8-v1/MINIAODSIM', era)
+  submitWrapper('DY_LO',    '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16MiniAODAPV-106X_mcRun2_asymptotic_preVFP_v8-v1/MINIAODSIM', era)
+
+  era       ='UL2016postVFP'
+  submitWrapper('Run2016F', '/SingleElectron/Run2016F-21Feb2020_UL2016-v1/MINIAOD', era) #
+  submitWrapper('Run2016G', '/SingleElectron/Run2016G-21Feb2020_UL2016-v1/MINIAOD', era) #
+  submitWrapper('Run2016H', '/SingleElectron/Run2016H-21Feb2020_UL2016-v2/MINIAOD', era) #
+
+  submitWrapper('DY_NLO',   '/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer20UL16MiniAOD-106X_mcRun2_asymptotic_v13-v2/MINIAODSIM', era)
+  submitWrapper('DY_LO',    '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL16MiniAOD-106X_mcRun2_asymptotic_v13-v2/MINIAODSIM', era)
 
 else:
   era       = '2016'
