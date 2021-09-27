@@ -82,6 +82,15 @@ EleProbeVariablesToStore = cms.PSet(
     el_IsoMVA94X     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1RawValues"),
     el_noIsoMVA94XV2     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2RawValues"),
     el_IsoMVA94XV2     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV2RawValues"),
+    el_IsoMVA17ULraw   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Summer17ULIdIsoRawValues"),
+    el_IsoMVA17ULval   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Summer17ULIdIsoValues"),
+    el_IsoMVA17UL   =cms.InputTag("egmGsfElectronIDs:mvaEleID-Summer17UL-ID-ISO-HZZ"), #egmGsfElectronIDs:
+    el_IsoMVA16ULraw   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Summer16ULIdIsoRawValues"),
+    el_IsoMVA16ULval   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Summer16ULIdIsoValues"),
+    el_IsoMVA16UL   =cms.InputTag("egmGsfElectronIDs:mvaEleID-Summer16UL-ID-ISO-HZZ"),
+    el_IsoMVA18ULraw   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Summer18ULIdIsoRawValues"),
+    el_IsoMVA18ULval   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Summer18ULIdIsoValues"),
+    el_IsoMVA18UL   =cms.InputTag("egmGsfElectronIDs:mvaEleID-Summer18UL-ID-ISO-HZZ"),
 
      
     #isolation
